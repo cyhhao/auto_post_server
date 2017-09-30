@@ -41,7 +41,7 @@ class WeiboHandler(PostHandler):
 
         payloads = []
         for vote in votes:
-            url = "http://127.0.0.1:8080/aj/joinpoll?ajwvr=6&__rnd=1506586072256"
+            url = "http://vote.weibo.com/aj/joinpoll?ajwvr=6&__rnd=1506586072256"
             post_data = {
                 "poll_id": str(vote),
                 "items": 20,
@@ -68,7 +68,7 @@ class WeiboHandler(PostHandler):
 
     def response(self, payloads):
         detail = u""
-        success = True
+        type = 'success'
         msg = u'投票成功'
 
         for payload in payloads:
@@ -93,6 +93,6 @@ class WeiboHandler(PostHandler):
                     12346这个投票失败了，因为你没登录，请点击[链接](http://weibo.com)先完成登录
                 """
             else:
-                success = False
+                type = 'error'
                 msg = u"投票失败"
-        return success, msg, detail
+        return type, msg, detail

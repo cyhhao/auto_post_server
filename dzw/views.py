@@ -53,4 +53,6 @@ def deal_response(request):
     payloads = json.loads(payloads)
     handler = all_hander_dict.get(key)
     if handler:
-        handler.response(payloads)
+        flag, msg, detail = handler.response(payloads)
+
+        return FormatHelper.res_format(flag, msg, detail)
