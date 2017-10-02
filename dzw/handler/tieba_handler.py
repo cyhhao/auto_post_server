@@ -1,5 +1,5 @@
-# coding=utf-8
-
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
 
 from core.handler.base import PostHandler
 from core.handler.form import Form
@@ -7,11 +7,11 @@ from core.handler.form import Form
 
 class TiebaHandler(PostHandler):
     def form(self, ):
-        form = Form(u"百度贴吧", u"自动签到", u"贴吧自动签到")
+        form = Form("百度贴吧", "自动签到", "贴吧自动签到")
 
         return form
 
-    def payload(self, options):
+    def payload(self, options, payload_callback=None):
         pass
 
     def header(self):

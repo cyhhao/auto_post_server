@@ -7,7 +7,7 @@ class Option(object):
         self.group = []
         self.order = order
 
-    def append(self, key, title, href=None):
+    def append_item(self, key, title, href=None):
         item = {
             "key": key,
             "title": title

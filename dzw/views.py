@@ -28,28 +28,47 @@ def main_page(request):
 
 def get_payload(request):
     options = request.POST.get('options')
-    options = json.loads(options)
-    key = options.get('key', '')
-    handler = all_hander_dict.get(key)
-    if handler:
+    if options:
+        options = json.loads(options)
+        key = options.get('_key', '')
         extra = options.get('description', {}).get('extra', [])
-        print
         extra_options = []
         if len(extra) > 0:
             for item in extra:
                 extra_options.append(item.get('ans'))
+        payload_callback = None
+    else:
+        payload_callback = request.POST.get('payload_callback')
+        payload_list = request.POST.get('payload_list')
+        payload_callback = json.loads(payload_callback)
+        payload_list = json.loads(payload_list)
 
-        payloads = handler.payload(extra_options)
+        key = payload_callback.get('_key', '')
+        extra_options = payload_list
 
-        return FormatHelper.res_format(200, data={
-            "payloads": payloads,
-            "key": key
-        })
+    handler = all_hander_dict.get(key)
+    if handler:
+        success, payloads, callback = handler.payload(extra_options, payload_callback)
+        if success:
+            if not isinstance(payloads, list):
+                payloads = [payloads]
+            if isinstance(callback, dict):
+                callback['_key'] = key
+            data = {
+                "payloads": payloads,
+                "callback": callback,
+                "_key": key
+            }
+            return FormatHelper.res_format(200, 'ok', data)
+        else:
+            return FormatHelper.res_format(400, payloads, callback)
+    else:
+        return FormatHelper.res_format(403, 'no such handler:' + key)
 
 
 def deal_response(request):
     payloads = request.POST.get('payloads')
-    key = request.POST.get('key')
+    key = request.POST.get('_key')
     payloads = json.loads(payloads)
     handler = all_hander_dict.get(key)
     if handler:
