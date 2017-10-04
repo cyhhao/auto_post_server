@@ -9,7 +9,7 @@ from dzw.payload_data.weibo import weibo_data
 
 class WeiboHandler(PostHandler):
     def form(self):
-        form = Form("微博投票", "投票 * 3", "微博自动投票")
+        form = Form("微博投票", "投票 * %s"%len(weibo_data), "微博自动投票")
 
         # 分享 or 匿名
         option = Form.CheckBox(order="-")
@@ -94,13 +94,14 @@ class WeiboHandler(PostHandler):
                 data = res.data
 
                 # todo 做一些判断，可以添加每个请求成功与否的信息，例如：
+                print data
                 if data.code == '100000':  # 成功
-                    detail += data.msg
+                    detail += data.msg + vote_msg
                 else:
                     if data.code == 'D00001':
                         fail_count += 1
-                        detail = "您尚未登录，请先[点此登录](http://weibo.com)后，再重试"
-                        return 'error', '您尚未登录，请先登录', detail
+                        detail = "您尚未登录，请先[点此登录](http://weibo.com/login.php)后，再重试"
+                        return 'error', '未登录', detail
                     elif data.code == '100001':
                         fail_count += 1
                         detail += data.msg + vote_msg

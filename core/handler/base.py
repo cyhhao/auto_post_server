@@ -37,16 +37,22 @@ class PostHandler:
             res = item.get('res', {})
             if res.get('status') == 200:
                 data = res.get('data', {})
+                print type(data)
+                print data
                 if not isinstance(data, dict):
                     try:
                         data = json.loads(data)
+                        res['data'] = DotDict(data)
                     except:
-                        data = {'code': 0, "msg": "no json"}
-                res['data'] = DotDict(data)
+                        # not json
+                        pass
+                else:
+                    res['data'] = DotDict(data)
             if 'msg' not in res:
                 res['msg'] = ''
             if 'data' not in res:
                 res['data'] = {}
+
             return DotDict(res)
         else:
             return {

@@ -76,7 +76,7 @@ class BaikeHandler(PostHandler):
             if res.status == 200:
                 data = res.data
                 if data.errno == 3:
-                    detail += '未登录，请先[点击此处](http://baidu.com)登录百度帐号'
+                    detail += '未登录，请先[点击此处](https://passport.baidu.com/v2/?login)登录百度帐号'
                     fail_count += 1
                 elif data.errno == 0:
                     detail += '送花成功 +1'
