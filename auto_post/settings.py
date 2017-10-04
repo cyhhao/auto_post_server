@@ -24,7 +24,7 @@ SECRET_KEY = '!+dsraztz%1h!1l*stc9^%ao!b6ma&dl6_kmcoqrf=&ev3)_79'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["127.0.0.1:8000", "dm48-chrome.zhusun.in"]
+ALLOWED_HOSTS = ["127.0.0.1", "dm48-chrome.zhusun.in"]
 
 # Application definition
 
